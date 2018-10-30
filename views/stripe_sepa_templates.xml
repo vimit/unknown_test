@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ir_cron_data_transaction_status" model="ir.cron">
+            <field name="name">Transaction: Get Stripe Status</field>
+            <field name="model_id" ref="model_payment_transaction"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.transaction_status()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+        <template id="sepa_form">
+            <input type="hidden" name="data_set" data-create-route="/payment/stripe/s2s/create_json_3ds" />
+            <div t-attf-class="mt8 #{'' if bootstrap_formatting else 'o_card_brand_detail'}">
+                <div t-att-class="'form-group col-md-12' if bootstrap_formatting else 'form-group'">
+                    <input type="tel" name="iban" id="iban" class="form-control" placeholder="IBAN" data-is-required="true"/>
+                </div>
+                <input type="hidden" name="acquirer_id" t-att-value="id"/>
+                <input t-if="return_url" type="hidden" name="return_url" t-att-value="return_url"/>
+                <input t-if="partner_id" type="hidden" name="partner_id" t-att-value="partner_id"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="clearfix"/>
+            </div>
+        </template>
+    </data>
+</odoo>
